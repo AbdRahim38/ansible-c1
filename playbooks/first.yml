@@ -1,0 +1,53 @@
+# first.yml
+---
+  - hosts: envhost
+    tags: execute
+    tasks:
+    - name: Extract Practice.gz into current directory
+      shell:
+        cmd: tar -xvf ../Practice.tar.gz
+
+    - name: list current directory & output
+      shell: 'ls -l'
+      register: result
+    - debug:
+        var: result.stdout_lines      
+
+    - name: list Practice Folder & output
+      shell: 'ls -l Practice/'
+      register: result
+    - debug:
+        var: result.stdout_lines
+
+    - name: Copy Practice/Test to a new folder named Report
+      shell:
+        cmd: cp -R Practice/Test/ Report
+
+    - name: Change to the Report directory and listing
+      shell:
+        cmd: ls -l
+        chdir: Report/
+      register: result
+    - debug:
+        var: result.stdout_lines
+
+    - name: rename and move
+      shell:
+        cmd: mv sos_commands/filesys/mount_-l mounts.txt
+        chdir: Report/
+
+    - name: listing reports
+      shell:
+        cmd: ls
+        chdir: Report/
+      register: result
+    - debug:
+        var: result.stdout_lines
+
+  - hosts: envhost
+    tags: clean
+    tasks:
+    - name: cleanup
+      shell: |
+        rm -rf Practice/
+        rm -rf Report/

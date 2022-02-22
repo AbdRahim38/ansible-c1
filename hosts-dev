@@ -1,0 +1,4 @@
+# hosts-dev
+
+[envhost]
+localhost ansible_connection=local
