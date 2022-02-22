@@ -1,0 +1,9 @@
+# clean.yml
+---
+  - hosts: envhost
+    tags: clean
+    tasks:
+    - name: cleanup
+      shell: |
+        rm -rf Practice/
+        rm -rf Report/
